@@ -1,8 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2016. Jorge Pujol - Todos los derechos reservados.
+  ~ Escrito por Jorge Pujol <jpujolji@gmail.com>, marzo 2016.
+  -->
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.jpujolji.www.test.fragments.SplashFragment">
+    tools:context="com.jpujolji.www.test.SplashActivity">
 
     <ImageView
         android:id="@+id/ivImage"
@@ -13,7 +19,6 @@
         android:src="@mipmap/ic_launcher" />
 
     <TextView
-        android:id="@+id/tv1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ivImage"

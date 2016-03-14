@@ -1,0 +1,19 @@
+<!--
+  ~ Copyright (c) 2016. Jorge Pujol - Todos los derechos reservados.
+  ~ Escrito por Jorge Pujol <jpujolji@gmail.com>, marzo 2016.
+  -->
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.jpujolji.www.test.fragments.EntryFragment">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvEntries"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbarStyle="outsideOverlay"
+        android:scrollbars="vertical" />
+
+</FrameLayout>
