@@ -6,4 +6,10 @@
     <!-- width image splash -->
     <dimen name="image_width">150dp</dimen>
 
+    <dimen name="font_size_34sp">34sp</dimen>
+    <dimen name="font_size_20sp">26sp</dimen>
+    <dimen name="font_size_16sp">22sp</dimen>
+    <dimen name="font_size_14sp">20sp</dimen>
+    <dimen name="font_size_12sp">18sp</dimen>
+
 </resources>

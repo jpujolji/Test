@@ -14,8 +14,10 @@ public class DbConstants {
         public static final String COLUMN_SUMMARY = "summary";
         public static final String COLUMN_IMAGE= "image";
         public static final String COLUMN_ARTIST= "artist";
+        public static final String COLUMN_PRICE= "price";
+        public static final String COLUMN_LINK= "link";
+        public static final String COLUMN_RIGHTS= "rights";
         public static final String COLUMN_ID_CATEGORY = "id_category";
-
     }
 
     public static abstract class TableCategory {
@@ -31,6 +33,9 @@ public class DbConstants {
             TableEntry.COLUMN_SUMMARY + " TEXT," +
             TableEntry.COLUMN_IMAGE + " TEXT," +
             TableEntry.COLUMN_ARTIST + " TEXT," +
+            TableEntry.COLUMN_PRICE + " TEXT," +
+            TableEntry.COLUMN_LINK + " TEXT," +
+            TableEntry.COLUMN_RIGHTS + " TEXT," +
             TableEntry.COLUMN_ID_CATEGORY + " INTEGER);";
 
     static final String CREATE_TABLE_CATEGORY = "CREATE TABLE IF NOT EXISTS " +

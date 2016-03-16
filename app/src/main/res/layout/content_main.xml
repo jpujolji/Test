@@ -13,4 +13,14 @@
     tools:context="com.jpujolji.www.test.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
+    <TextView
+        android:id="@+id/tvBackground"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="No hay datos para mostrar"
+        android:textSize="@dimen/font_size_20sp" />
+
 </RelativeLayout>

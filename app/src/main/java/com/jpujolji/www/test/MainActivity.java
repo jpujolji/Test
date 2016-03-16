@@ -104,18 +104,23 @@ public class MainActivity extends AppCompatActivity
     public void setupMenu() {
         List<Category> categories = database.getCategories();
         if (categories != null) {
-            Menu m = navigationView.getMenu();
-            SubMenu subMenu = m.addSubMenu("Categorias");
-            subMenu.add(0, 0, 0, "Todos").setCheckable(true);
-            for (Category category : categories) {
-                subMenu.add(0, category.id, 0, category.description).setCheckable(true);
+            if (categories.size()>0) {
+                Menu m = navigationView.getMenu();
+                SubMenu subMenu = m.addSubMenu("Categorias");
+                subMenu.add(0, 0, 0, "Todos").setCheckable(true);
+                for (Category category : categories) {
+                    subMenu.add(0, category.id, 0, category.description).setCheckable(true);
+                }
+
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, EntryFragment.newInstance(), "entries")
+                        .commit();
+            }else {
+                Menu m = navigationView.getMenu();
+                SubMenu subMenu = m.addSubMenu("No hay datos almacenados");
+                subMenu.add(0, 0, 0, "").setCheckable(false);
             }
-
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.container, EntryFragment.newInstance(), "entries")
-                    .commit();
-
         }
     }
 

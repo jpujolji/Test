@@ -51,13 +51,15 @@ public class EntryFragment extends Fragment implements EntryListAdapter.EntryLis
         rvEntries = (RecyclerView) rootView.findViewById(R.id.rvEntries);
 
         rvEntries.setHasFixedSize(true);
-        rvEntries.setLayoutManager(new LinearLayoutManager(rootView.getContext()));
-
+        if (getResources().getBoolean(R.bool.isTablet)) {
+            rvEntries.setLayoutManager(new GridLayoutManager(rootView.getContext(), 2));
+        } else {
+            rvEntries.setLayoutManager(new LinearLayoutManager(rootView.getContext()));
+        }
         rvEntries.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 if (mAdapter != null) {
-                    Log.i("Depuracion","asdfg");
                     mAdapter.setLockedAnimations(true);
                 }
             }

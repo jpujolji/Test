@@ -10,7 +10,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.transition.Transition;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,13 +31,18 @@ public class DetailEntryActivity extends AppCompatActivity {
 
     Entry entry;
     Database database;
-    TextView tvTitle, tvArtist;
+    TextView tvTitle, tvArtist, tvPrice, tvRights, tvLink, tvSummary;
     ImageView ivImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_entry);
+
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        assert getSupportActionBar() != null;
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         database = new Database(DetailEntryActivity.this);
         try {
@@ -48,8 +55,14 @@ public class DetailEntryActivity extends AppCompatActivity {
         idEntry = bundle.getInt(ID_ENTRY, 0);
         entry = database.getEntry(idEntry);
 
+        getSupportActionBar().setTitle(entry.title);
+
         tvTitle = (TextView) findViewById(R.id.tvTitle);
         tvArtist = (TextView) findViewById(R.id.tvArtist);
+        tvPrice = (TextView) findViewById(R.id.tvPrice);
+        tvLink = (TextView) findViewById(R.id.tvLink);
+        tvSummary = (TextView) findViewById(R.id.tvSummary);
+        tvRights = (TextView) findViewById(R.id.tvRights);
         ivImage = (ImageView) findViewById(R.id.ivImage);
 
         ViewCompat.setTransitionName(tvTitle, VIEW_NAME);
@@ -63,6 +76,20 @@ public class DetailEntryActivity extends AppCompatActivity {
     private void loadItem() {
         tvTitle.setText(entry.title);
         tvArtist.setText(entry.artist);
+
+        if (entry.price != null) {
+            if (!entry.price.isEmpty()) {
+                if (Double.parseDouble(entry.price) > 0) {
+                    tvPrice.setText(entry.price);
+                } else {
+                    tvPrice.setText("FREE");
+                }
+            }
+        }
+
+        tvRights.setText(entry.rights);
+        tvLink.setText(entry.link);
+        tvSummary.setText(entry.summary);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && addTransitionListener()) {
             loadThumbnail();
@@ -85,6 +112,7 @@ public class DetailEntryActivity extends AppCompatActivity {
                 .noPlaceholder()
                 .into(ivImage);
     }
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private boolean addTransitionListener() {
         final Transition transition = getWindow().getSharedElementEnterTransition();
@@ -117,5 +145,16 @@ public class DetailEntryActivity extends AppCompatActivity {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

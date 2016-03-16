@@ -6,8 +6,11 @@
 package com.jpujolji.www.test;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.CountDownTimer;
+import android.provider.Settings;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -71,6 +74,34 @@ public class SplashActivity extends AppCompatActivity implements HttpInterface {
             progressDialog.show();
         } else {
 
+            AlertDialog.Builder builder = new AlertDialog.Builder(SplashActivity.this);
+
+            builder.setMessage("No se detectó conexión a Internet")
+                    .setCancelable(false)
+                    .setTitle("Error de conexión");
+
+            builder.setNegativeButton("Opciones",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            Intent myIntent = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
+
+                            startActivity(myIntent);
+                            dialog.cancel();
+                        }
+                    });
+
+            builder.setPositiveButton("Continuar",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                            startActivity(intent);
+                            overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
+                        }
+                    });
+
+            AlertDialog alert = builder.create();
+            alert.show();
         }
     }
 
@@ -93,6 +124,7 @@ public class SplashActivity extends AppCompatActivity implements HttpInterface {
         progressDialog.dismiss();
         Intent intent = new Intent(SplashActivity.this, MainActivity.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
     }
 
     @Override

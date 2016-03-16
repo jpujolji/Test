@@ -49,6 +49,9 @@ public class Database {
             values.put(DbConstants.TableEntry.COLUMN_SUMMARY, entry.summary);
             values.put(DbConstants.TableEntry.COLUMN_IMAGE, entry.image);
             values.put(DbConstants.TableEntry.COLUMN_ARTIST, entry.artist);
+            values.put(DbConstants.TableEntry.COLUMN_PRICE, entry.price);
+            values.put(DbConstants.TableEntry.COLUMN_LINK, entry.link);
+            values.put(DbConstants.TableEntry.COLUMN_RIGHTS, entry.rights);
             db.insert(DbConstants.TableEntry.TABLE_NAME, null, values);
 
             Cursor cursor = db.rawQuery("SELECT * FROM " + DbConstants.TableCategory.TABLE_NAME +
@@ -95,7 +98,7 @@ public class Database {
 
         if (cursor.moveToFirst()) {
             do {
-                Entry entry = new Entry(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4));
+                Entry entry = new Entry(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7));
                 entries.add(entry);
             } while (cursor.moveToNext());
         }
@@ -110,7 +113,7 @@ public class Database {
         Cursor cursor = db.query(DbConstants.TableEntry.TABLE_NAME, null,
                 DbConstants.TableEntry.COLUMN_ID + "=?", new String[]{"" + idEntry}, null, null, null);
         if (cursor.moveToFirst()) {
-            entry = new Entry(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4));
+            entry = new Entry(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7));
 
         }
 
