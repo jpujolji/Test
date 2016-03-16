@@ -7,11 +7,9 @@ package com.jpujolji.www.test;
 
 import android.annotation.TargetApi;
 import android.os.Build;
-import android.provider.SyncStateContract;
-import android.support.design.widget.CollapsingToolbarLayout;
+import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.transition.Transition;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,7 +29,7 @@ public class DetailEntryActivity extends AppCompatActivity {
 
     Entry entry;
     Database database;
-
+    TextView tvTitle, tvArtist;
     ImageView ivImage;
 
     @Override
@@ -50,20 +48,74 @@ public class DetailEntryActivity extends AppCompatActivity {
         idEntry = bundle.getInt(ID_ENTRY, 0);
         entry = database.getEntry(idEntry);
 
-        TextView tvTitle = (TextView) findViewById(R.id.tvTitle);
-        TextView tvArtist = (TextView) findViewById(R.id.tvArtist);
+        tvTitle = (TextView) findViewById(R.id.tvTitle);
+        tvArtist = (TextView) findViewById(R.id.tvArtist);
         ivImage = (ImageView) findViewById(R.id.ivImage);
 
         ViewCompat.setTransitionName(tvTitle, VIEW_NAME);
         ViewCompat.setTransitionName(tvArtist, VIEW_ARTIST);
+        ViewCompat.setTransitionName(ivImage, VIEW_IMAGE);
 
+        loadItem();
+
+    }
+
+    private void loadItem() {
         tvTitle.setText(entry.title);
         tvArtist.setText(entry.artist);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && addTransitionListener()) {
+            loadThumbnail();
+        } else {
+            loadFullSizeImage();
+        }
+    }
+
+    private void loadThumbnail() {
         Picasso.with(DetailEntryActivity.this)
                 .load(entry.image)
                 .noFade()
                 .into(ivImage);
+    }
 
+    private void loadFullSizeImage() {
+        Picasso.with(DetailEntryActivity.this)
+                .load(entry.image)
+                .noFade()
+                .noPlaceholder()
+                .into(ivImage);
+    }
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private boolean addTransitionListener() {
+        final Transition transition = getWindow().getSharedElementEnterTransition();
+
+        if (transition != null) {
+            transition.addListener(new Transition.TransitionListener() {
+                @Override
+                public void onTransitionEnd(Transition transition) {
+                    loadFullSizeImage();
+                    transition.removeListener(this);
+                }
+
+                @Override
+                public void onTransitionStart(Transition transition) {
+                }
+
+                @Override
+                public void onTransitionCancel(Transition transition) {
+                    transition.removeListener(this);
+                }
+
+                @Override
+                public void onTransitionPause(Transition transition) {
+                }
+
+                @Override
+                public void onTransitionResume(Transition transition) {
+                }
+            });
+            return true;
+        }
+        return false;
     }
 }

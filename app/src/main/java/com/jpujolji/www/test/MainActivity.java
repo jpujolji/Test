@@ -106,6 +106,7 @@ public class MainActivity extends AppCompatActivity
         if (categories != null) {
             Menu m = navigationView.getMenu();
             SubMenu subMenu = m.addSubMenu("Categorias");
+            subMenu.add(0, 0, 0, "Todos").setCheckable(true);
             for (Category category : categories) {
                 subMenu.add(0, category.id, 0, category.description).setCheckable(true);
             }
@@ -114,8 +115,15 @@ public class MainActivity extends AppCompatActivity
             fragmentManager.beginTransaction()
                     .replace(R.id.container, EntryFragment.newInstance(), "entries")
                     .commit();
-            onNavigationItemSelected(subMenu.getItem(0));
 
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Menu m = navigationView.getMenu();
+        onNavigationItemSelected(m.getItem(0));
+        navigationView.setCheckedItem(m.getItem(0).getItemId());
     }
 }

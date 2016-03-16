@@ -9,6 +9,7 @@
     android:layout_height="wrap_content"
     android:clickable="true"
     android:focusable="true"
+    android:id="@+id/cardview"
     android:layout_marginLeft="@dimen/list_item_vertical_spacing"
     android:layout_marginRight="@dimen/list_item_vertical_spacing"
     android:layout_marginBottom="@dimen/list_item_horizontal_spacing"

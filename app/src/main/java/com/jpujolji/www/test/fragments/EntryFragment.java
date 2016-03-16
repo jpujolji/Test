@@ -15,6 +15,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,8 @@ public class EntryFragment extends Fragment implements EntryListAdapter.EntryLis
     View rootView;
     List<Entry> entries;
 
+    EntryListAdapter mAdapter;
+
     public static EntryFragment newInstance() {
         return new EntryFragment();
     }
@@ -50,6 +53,16 @@ public class EntryFragment extends Fragment implements EntryListAdapter.EntryLis
         rvEntries.setHasFixedSize(true);
         rvEntries.setLayoutManager(new LinearLayoutManager(rootView.getContext()));
 
+        rvEntries.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                if (mAdapter != null) {
+                    Log.i("Depuracion","asdfg");
+                    mAdapter.setLockedAnimations(true);
+                }
+            }
+        });
+
         return rootView;
     }
 
@@ -62,7 +75,7 @@ public class EntryFragment extends Fragment implements EntryListAdapter.EntryLis
         }
         entries = database.getEntries(idCategory);
 
-        EntryListAdapter mAdapter = new EntryListAdapter(getContext(), entries, this);
+        mAdapter = new EntryListAdapter(getContext(), entries, this);
         rvEntries.setAdapter(mAdapter);
         rvEntries.setItemAnimator(new DefaultItemAnimator());
     }

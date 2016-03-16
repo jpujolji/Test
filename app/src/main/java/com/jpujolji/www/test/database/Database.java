@@ -85,8 +85,14 @@ public class Database {
 
     public List<Entry> getEntries(int idCategory) {
         List<Entry> entries = new ArrayList<>();
-        Cursor cursor = db.query(DbConstants.TableEntry.TABLE_NAME, null,
-                DbConstants.TableEntry.COLUMN_ID_CATEGORY + "=?", new String[]{"" + idCategory}, null, null, null);
+        Cursor cursor;
+        if (idCategory != 0) {
+            cursor = db.query(DbConstants.TableEntry.TABLE_NAME, null,
+                    DbConstants.TableEntry.COLUMN_ID_CATEGORY + "=?", new String[]{"" + idCategory}, null, null, null);
+        } else {
+            cursor = db.query(DbConstants.TableEntry.TABLE_NAME, null, null, null, null, null, null);
+        }
+
         if (cursor.moveToFirst()) {
             do {
                 Entry entry = new Entry(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4));
